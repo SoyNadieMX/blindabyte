@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BlindaByte · Aprende ciberseguridad paso a paso</title>
+<meta name="description" content="BlindaByte: aprende ciberseguridad paso a paso, en español. Lecciones cortas con práctica: seguridad básica, Linux y redes.">
+<meta name="theme-color" content="#0B0B0B">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_MX">
+<meta property="og:title" content="BlindaByte · Aprende ciberseguridad paso a paso">
+<meta property="og:description" content="Lecciones cortas en español con práctica en cada paso. Empieza gratis con seguridad básica, Linux y redes.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9B%A1%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F4F4F4;--surface:#FFFFFF;--ink:#111111;--muted:#5E5E5E;--line:#DDDDDD;--accent:#FFC400;--on-accent:#111111;--red:#E10600;--good:#1E8E5A;--bad:#C40000;--hero:#0B0B0B;--hero-ink:#FFFFFF;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0A0A0A;--surface:#161616;--ink:#F5F5F5;--muted:#A3A3A3;--line:#2C2C2C;--good:#4CC38A;--bad:#FF6B6B;--hero:#000000;--hero-ink:#FFFFFF;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0A0A0A;--surface:#161616;--ink:#F5F5F5;--muted:#A3A3A3;--line:#2C2C2C;--good:#4CC38A;--bad:#FF6B6B;--hero:#000000;--hero-ink:#FFFFFF;color-scheme:dark}
+*,*::before,*::after{box-sizing:inherit}
+[hidden]{display:none!important}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 Figtree,system-ui,-apple-system,"Segoe UI",sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque",Georgia,"Times New Roman",serif;line-height:1.1;margin:0}
+a{color:inherit}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+.hero{background:var(--hero);color:var(--hero-ink);padding-bottom:52px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;color:var(--red);opacity:.55}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--hero) 22%,transparent 80%);pointer-events:none}
+.hero .wrap{position:relative;z-index:1}
+nav{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.brand{font:800 1.3rem "Bricolage Grotesque",Georgia,serif;text-decoration:none}
+nav div a{margin-left:18px;font-size:.95rem;text-decoration:none;opacity:.85}
+.hero h1{font-size:clamp(2.6rem,11vw,4.8rem);font-weight:800;letter-spacing:-.03em;margin-top:34px}
+.hero p.lead{font-size:1.2rem;max-width:34ch;margin:16px 0 26px;opacity:.9}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-block;font:600 1rem Figtree,system-ui,sans-serif;padding:14px 22px;border-radius:10px;text-decoration:none;border:2px solid var(--red);background:var(--red);color:#fff;cursor:pointer}
+.btn.ghost{background:transparent;color:inherit;border-color:currentColor}
+.btn.sm{padding:9px 15px;font-size:.92rem}
+a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+section{padding:46px 0 6px}
+section h2{font-size:clamp(1.7rem,6vw,2.3rem);font-weight:800;margin-bottom:14px}
+section p{max-width:62ch}
+.pts{display:grid;gap:12px;margin-top:18px}
+.pt{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.pt b{display:block;font-family:"Bricolage Grotesque",Georgia,serif;font-size:1.15rem;margin-bottom:2px}
+.pt span{color:var(--muted)}
+ol.steps{list-style:none;margin:18px 0 0;padding:0;display:grid;gap:14px;counter-reset:s}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start}
+ol.steps li::before{content:counter(s);width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font:800 1.2rem "Bricolage Grotesque",Georgia,serif}
+ol.steps b{display:block}
+.lab{background:var(--hero);color:var(--hero-ink);border-radius:16px;padding:26px 20px;margin-top:46px}
+.lab h2{margin-bottom:8px}
+.field{display:block;width:100%;font:600 1.15rem/1.3 Figtree,system-ui,sans-serif;padding:15px 16px;border-radius:10px;border:2px solid transparent;background:#fff;color:#0E1A33;margin-top:14px}
+.meter{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:16px 0 10px}
+.meter i{height:8px;border-radius:4px;background:rgba(255,255,255,.18)}
+.meter i.on{background:var(--accent)}
+.big{font:800 clamp(1.5rem,6vw,2.1rem)/1.1 "Bricolage Grotesque",Georgia,serif;display:block}
+.tip{opacity:.8;font-size:.95rem;display:block;margin-top:6px;min-height:3em}
+.small{font-size:.85rem;opacity:.65;margin:10px 0 0}
+.mod{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 18px;margin-top:16px}
+.mod h3{font-size:1.35rem;font-weight:800}
+.mod>p{color:var(--muted);margin:6px 0 14px}
+.mod.soon{opacity:.7}
+.tag{display:inline-block;font-size:.8rem;font-weight:600;background:var(--line);border-radius:20px;padding:2px 10px;margin-top:8px}
+.row{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.row .t{flex:1;font-weight:600}
+.row .m{color:var(--muted);font-size:.88rem}
+.dot{flex:none;width:24px;height:24px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:.8rem;color:#fff}
+.row.done .dot{background:var(--good);border-color:var(--good)}
+.cta{background:var(--accent);color:var(--on-accent);border-radius:16px;padding:24px 20px;margin:46px 0 0}
+.cta h2{font-size:1.5rem;margin-bottom:6px}
+.cta p{margin:0}
+footer{padding:36px 0 30px;color:var(--muted);font-size:.9rem}
+footer button{background:none;border:0;color:inherit;font:inherit;text-decoration:underline;cursor:pointer;padding:0}
+#reader{padding:22px 0 40px}
+.crumb{display:inline-block;margin-bottom:18px;color:var(--muted);font-size:.95rem}
+#reader h1{font-size:clamp(2rem,8vw,3rem);font-weight:800;letter-spacing:-.02em}
+.meta{color:var(--muted);margin:8px 0 20px}
+.read p,.read li{max-width:60ch}
+.read ul{padding-left:20px}
+.read li{margin-bottom:8px}
+.quiz{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:26px}
+.quiz h3{font-size:1.15rem;margin-bottom:12px}
+.opt{display:block;width:100%;text-align:left;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:8px;cursor:pointer}
+.opt.ok{border-color:var(--good);background:color-mix(in srgb,var(--good) 16%,transparent)}
+.opt.no{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 14%,transparent)}
+.fb{margin:6px 0 0;min-height:1.5em}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:26px}
+.tag.pr{background:var(--red);color:#fff;margin:0 0 0 8px;vertical-align:middle}
+.mod.prem{border:2px solid var(--red)}
+.stg{font:800 1.05rem "Bricolage Grotesque",Georgia,serif;margin:16px 0 2px}
+.read pre{background:#0B0B0B;color:#F5F5F5;padding:14px;border-radius:10px;overflow-x:auto;font-size:.88rem;line-height:1.5}
+.read code{font-family:ui-monospace,Consolas,monospace}
+.read ol{padding-left:20px}
+.read p code,.read li code{background:var(--line);padding:1px 6px;border-radius:5px;font-size:.9em}
+.row.lock .t{opacity:.75}
+.gt{padding:12px 0;border-top:1px solid var(--line)}
+.gt b{display:block;font-family:"Bricolage Grotesque",Georgia,serif;font-size:1.1rem}
+.gt span{color:var(--muted)}
+.plans{display:grid;gap:16px;margin-top:18px}
+.plan{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px 20px}
+.plan.pr{border:2px solid var(--red)}
+.plan h3{font-size:1.5rem;font-weight:800}
+.plan .sub{color:var(--muted);margin:4px 0 12px}
+.plan ul{margin:0 0 16px;padding-left:20px}
+.plan li{margin-bottom:6px}
+.btn.off{background:var(--line);border-color:var(--line);color:var(--muted);cursor:not-allowed}
+@media (min-width:700px){.plans{grid-template-columns:1fr 1fr}}
+.side{display:none}
+.sidebox{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+.sidebox b{display:block;font-family:"Bricolage Grotesque",Georgia,serif;font-size:1.05rem;margin-bottom:8px}
+.sl{display:block;padding:7px 10px;border-radius:8px;text-decoration:none;font-size:.95rem;color:var(--ink)}
+.sl:hover{background:var(--bg)}
+.sl.cur{background:var(--accent);color:var(--on-accent);font-weight:600}
+.sl.dn::after{content:" ✓";color:var(--good)}
+.pbar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin-bottom:6px}
+.pbar i{display:block;height:100%;background:var(--red)}
+@media (min-width:960px){
+.wrap{max-width:1120px;padding:0 32px}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:48px;align-items:start}
+.layout main{min-width:0}
+.side{display:block;position:sticky;top:20px;padding-top:46px;max-height:calc(100vh - 20px);overflow-y:auto}
+.rlay{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:48px;align-items:start}
+.rlay .side{padding-top:0}
+.hero{padding-bottom:90px}
+.hero h1{font-size:5.4rem;max-width:14ch}
+.hero p.lead{font-size:1.35rem;max-width:40ch}
+.pts{grid-template-columns:repeat(3,1fr)}
+ol.steps{grid-template-columns:1fr 1fr;gap:22px}
+#rows,#rowsP,#rowsP2,#rowsP3,#rowsP4,#rowsP5,#rowsP6,#rowsM2,#rowsM3{display:grid;grid-template-columns:1fr 1fr;column-gap:28px}
+}
+.hero{background:radial-gradient(900px 480px at 78% 30%,rgba(225,6,0,.38),transparent 62%),radial-gradient(700px 400px at 8% 100%,rgba(255,196,0,.14),transparent 60%),var(--hero)}
+.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:44px 44px;-webkit-mask-image:linear-gradient(180deg,#000 30%,transparent 95%);mask-image:linear-gradient(180deg,#000 30%,transparent 95%);animation:grid 14s linear infinite}
+@keyframes grid{to{background-position:0 44px,44px 0}}
+.scan{position:absolute;left:0;right:0;height:140px;top:-140px;background:linear-gradient(180deg,transparent,rgba(255,60,50,.14),transparent);animation:scan 6s linear infinite;pointer-events:none}
+@keyframes scan{to{transform:translateY(900px)}}
+.hero-bg{animation:pulse 5s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.85;filter:drop-shadow(0 0 18px rgba(225,6,0,.8))}}
+.hero h1 .hl{background:linear-gradient(90deg,var(--accent),#FF4B3E);-webkit-background-clip:text;background-clip:text;color:transparent}
+.badge{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.25);border-radius:30px;padding:5px 14px;font-size:.85rem;margin-top:26px;background:rgba(255,255,255,.06)}
+.badge i{width:8px;height:8px;border-radius:50%;background:#35E27A;box-shadow:0 0 10px #35E27A;animation:blink 1.4s infinite}
+.hero h1{margin-top:18px}
+@keyframes blink{50%{opacity:.25}}
+.term{margin-top:30px;max-width:560px;background:rgba(8,8,8,.78);border:1px solid rgba(255,255,255,.14);border-radius:12px;box-shadow:0 20px 60px rgba(0,0,0,.5),0 0 40px rgba(225,6,0,.18);backdrop-filter:blur(6px);overflow:hidden}
+.term .bar2{display:flex;gap:6px;padding:10px 12px;background:rgba(255,255,255,.06)}
+.term .bar2 i{width:10px;height:10px;border-radius:50%;background:#E10600}
+.term .bar2 i:nth-child(2){background:#FFC400}
+.term .bar2 i:nth-child(3){background:#35E27A}
+.term pre{margin:0;padding:14px 16px;font:500 .88rem/1.65 ui-monospace,Consolas,monospace;color:#EDEDED;min-height:11.5em;white-space:pre-wrap}
+.term .ok{color:#35E27A}
+.term .warn{color:var(--accent)}
+.term .p{color:#FF5B50}
+.caret{display:inline-block;width:8px;height:1em;background:#fff;vertical-align:-2px;animation:blink 1s steps(1) infinite}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:16px 12px;margin-top:32px}
+.stats div{border-left:3px solid var(--red);padding-left:12px}
+.stats b{display:block;font:800 1.9rem "Bricolage Grotesque",Georgia,serif;line-height:1}
+.stats span{font-size:.85rem;opacity:.75}
+.btn{box-shadow:0 8px 24px rgba(225,6,0,.35);transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(225,6,0,.5)}
+.btn.ghost,.btn.off{box-shadow:none}
+.btn.off:hover{transform:none}
+section h2::after{content:"";display:block;width:56px;height:4px;background:var(--red);margin-top:10px;border-radius:2px}
+.pt,.plan,.mod{transition:transform .2s,border-color .2s,box-shadow .2s}
+.pt:hover,.plan:hover{transform:translateY(-3px);border-color:var(--red);box-shadow:0 10px 30px rgba(225,6,0,.14)}
+.rv{opacity:0;transform:translateY(22px);transition:opacity .6s,transform .6s}
+.rv.in{opacity:1;transform:none}
+@media (min-width:700px){.stats{grid-template-columns:repeat(4,1fr)}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.hero::before,.scan,.hero-bg,.badge i,.caret{animation:none}.rv{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+<div id="home">
+<header class="hero"><div class="scan"></div><svg class="hero-bg" viewBox="0 0 800 520" preserveAspectRatio="xMaxYMid slice" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M380 70H470V150H560M470 150V230H410M640 40V90H760M760 90V170M430 330H520V410H600M520 410V490H700M690 330H780V420"/><g fill="currentColor" stroke="none"><circle cx="380" cy="70" r="6"/><circle cx="560" cy="150" r="6"/><circle cx="410" cy="230" r="6"/><circle cx="640" cy="40" r="6"/><circle cx="760" cy="170" r="6"/><circle cx="430" cy="330" r="6"/><circle cx="600" cy="410" r="6"/><circle cx="700" cy="490" r="6"/><circle cx="780" cy="420" r="6"/></g><path stroke-width="4" d="M610 100L735 145V260C735 345 685 400 610 435C535 400 485 345 485 260V145Z"/><path stroke-width="2" d="M610 128L712 164V258C712 330 672 376 610 406C548 376 508 330 508 258V164Z"/><circle cx="610" cy="245" r="22" stroke-width="4"/><path stroke-width="12" d="M610 270V322"/></svg><div class="wrap">
+<nav><a class="brand" href="#inicio">BlindaByte</a><div><a href="#ruta">Ruta</a><a href="#glosario">Glosario</a><a href="#planes">Planes</a><a href="#probador">Probador</a></div></nav>
+<span class="badge"><i></i>Ruta completa en español · Del cero a tu primer empleo</span>
+<h1>Aprende <span class="hl">ciberseguridad</span>, un paso a la vez.</h1>
+<p class="lead">Lecciones cortas en español, con práctica al final de cada una. Sin tecnicismos y sin experiencia previa.</p>
+<div class="btns"><a class="btn" href="#leccion-pass">Empezar la primera lección</a><a class="btn ghost" href="#ruta">Ver la ruta completa</a></div>
+<div class="term" aria-hidden="true"><div class="bar2"><i></i><i></i><i></i></div><pre id="tm"></pre></div>
+<div class="stats"><div><b id="s1">0</b><span>lecciones</span></div><div><b>6</b><span>etapas en la ruta Premium (pronto)</span></div><div><b id="s2">0</b><span>términos en el glosario</span></div><div><b>100%</b><span>práctica en cada paso</span></div></div>
+</div></header>
+
+<div class="wrap layout"><aside class="side" id="side"></aside>
+<main>
+<section id="inicio">
+<h2>¿De qué trata BlindaByte?</h2>
+<p>Es una página para aprender a protegerte en internet y, si quieres, seguir hasta los fundamentos de la ciberseguridad. Cada tema se explica en pocos minutos y se comprueba con una pregunta de práctica.</p>
+<div class="pts">
+<div class="pt"><b>Lecciones de 3 a 5 minutos</b><span>Cabe en un descanso. Avanzas a tu ritmo.</span></div>
+<div class="pt"><b>Práctica en cada paso</b><span>Una pregunta al final confirma que lo entendiste.</span></div>
+<div class="pt"><b>Una ruta ordenada</b><span>De lo básico a Linux y redes, sin perderte.</span></div>
+</div>
+</section>
+
+<section id="como">
+<h2>Cómo funciona</h2>
+<ol class="steps">
+<li><div><b>Elige una lección</b>Empieza por el Módulo 1 o salta a lo que te interese.</div></li>
+<li><div><b>Léela</b>Ideas claras y ejemplos de la vida diaria.</div></li>
+<li><div><b>Responde la práctica</b>Si aciertas, la lección queda marcada como completada.</div></li>
+<li><div><b>Sigue con la siguiente</b>Tu avance se guarda para que retomes donde te quedaste.</div></li>
+</ol>
+</section>
+
+<section id="ruta">
+<h2>La ruta de aprendizaje</h2>
+<p>Los módulos se abren en orden. El primero ya está disponible.</p>
+<div class="mod">
+<h3>Módulo 1: Seguridad básica</h3>
+<p>Protege tus cuentas y reconoce las trampas más comunes.</p>
+<div id="rows"></div>
+</div>
+<div class="mod"><h3>Módulo 2: Linux desde cero</h3><p>Pierde el miedo a la terminal. Gratis.</p><div id="rowsM2"></div></div>
+<div class="mod"><h3>Módulo 3: Redes e internet</h3><p>Entiende cómo funciona internet por dentro. Gratis.</p><div id="rowsM3"></div></div>
+<div class="mod prem"><h3>Premium: Ruta profesional<span class="tag pr">Próximamente</span></h3><p>Del cero a tu primer empleo en ciberseguridad, en 6 etapas. Estamos preparando este contenido.</p><div class="row lock"><span class="dot"></span><span class="t">Etapa 1: Base técnica</span><span class="tag">Próximamente</span></div><div class="row lock"><span class="dot"></span><span class="t">Etapa 2: Laboratorio propio</span><span class="tag">Próximamente</span></div><div class="row lock"><span class="dot"></span><span class="t">Etapa 3: Hacking ético</span><span class="tag">Próximamente</span></div><div class="row lock"><span class="dot"></span><span class="t">Etapa 4: Defensa (blue team)</span><span class="tag">Próximamente</span></div><div class="row lock"><span class="dot"></span><span class="t">Etapa 5: Práctica real</span><span class="tag">Próximamente</span></div><div class="row lock"><span class="dot"></span><span class="t">Etapa 6: Carrera</span><span class="tag">Próximamente</span></div></div>
+
+
+</section>
+
+<section id="glosario">
+<h2>Glosario</h2>
+<p>Los términos clave de ciberseguridad en palabras simples. Busca el que necesites.</p>
+<input id="gq" class="field" type="search" placeholder="Buscar término…" aria-label="Buscar en el glosario" style="margin:0 0 14px;border:1px solid var(--line)">
+<div id="gl"></div>
+</section>
+
+<section id="planes">
+<h2>Planes: Normal y Premium</h2>
+<p>Aprende gratis lo esencial. Con Premium accedes a todo el contenido extra.</p>
+<div class="plans">
+<div class="plan"><h3>Normal</h3><p class="sub">Gratis, para empezar</p><ul><li>Módulos 1 a 3: seguridad básica, Linux y redes (introducción)</li><li>Práctica al final de cada lección</li><li>Probador de contraseñas y glosario con buscador</li><li>Progreso guardado en tu navegador</li></ul><a class="btn ghost" href="#leccion-pass">Empezar gratis</a></div>
+<div class="plan pr"><h3>Premium<span class="tag pr">Suscripción</span></h3><p class="sub">Más profundidad y práctica</p><ul><li>Todo lo del plan Normal</li><li>Módulos avanzados y lecciones más largas</li><li>Retos prácticos con casos reales</li><li>Nuevas lecciones antes que nadie</li><li>Progreso en la nube con tu cuenta</li></ul><span class="btn off" aria-disabled="true">Próximamente</span></div>
+</div>
+</section>
+
+<section class="lab" id="probador" style="margin-top:46px">
+<h2>Probador de contraseñas</h2>
+<p>Escribe una contraseña de práctica y mira cuánto tardaría una computadora en adivinarla.</p>
+<label for="pw" class="small" style="display:block;margin-top:14px">Usa una de práctica, no una real</label>
+<input id="pw" class="field" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Escribe aquí…" style="margin-top:6px">
+<div class="meter" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<div aria-live="polite"><span class="big" id="rt">Escribe algo para empezar</span><span class="tip" id="rn"></span></div>
+<p class="small">Se calcula en tu navegador. Lo que escribes no se envía a ningún lado.</p>
+</section>
+
+<div class="cta"><h2>Pronto: crea tu cuenta</h2><p>Estamos preparando el registro con correo electrónico para que guardes tu avance en cualquier dispositivo. Por ahora se guarda en este navegador.</p></div>
+</main></div>
+<footer class="wrap">BlindaByte · Hecho para aprender con calma. <button id="reset" type="button">Reiniciar mi progreso</button></footer>
+</div>
+
+<main id="reader" class="wrap" hidden></main>
+
+<script>
+var L=[
+{id:'pass',t:'Contraseñas que sí aguantan',m:'4 min',
+ b:'<p>La longitud pesa más que los símbolos raros. Una frase larga es más fuerte y más fácil de recordar que una clave corta con signos.</p><ul><li>Usa 4 palabras al azar o más, por ejemplo tinta-nube-ocho-camino.</li><li>Una contraseña distinta para cada cuenta. Si una se filtra, las demás siguen a salvo.</li><li>Guárdalas en un gestor de contraseñas en vez de recordarlas todas.</li></ul>',
+ q:'¿Cuál de estas contraseñas es la más segura?',o:['Gallo2024!','tinta-nube-ocho-camino','Mi fecha de nacimiento'],ok:1,
+ w:'Correcto. Cuatro palabras al azar son largas y difíciles de adivinar. Gallo2024! sigue un patrón muy común.'},
+{id:'phish',t:'Cómo reconocer el phishing',m:'5 min',
+ b:'<p>El phishing es un mensaje falso que te presiona para que des datos o hagas clic. Casi siempre trae las mismas señales:</p><ul><li>Urgencia: «tu cuenta se bloquea hoy».</li><li>Un remitente o enlace que casi coincide con el real.</li><li>Te piden contraseñas, códigos o datos de tarjeta.</li></ul><p>Ante la duda, no toques el enlace. Entra por tu cuenta a la app o al sitio oficial.</p>',
+ q:'Te llega un SMS: «Tu cuenta se bloqueará en 1 hora, entra aquí». ¿Qué haces?',o:['Entro rápido para evitar el bloqueo','Abro la app o el sitio oficial por mi cuenta','Respondo con mis datos'],ok:1,
+ w:'Correcto. Si el aviso es real, lo verás también dentro de tu cuenta oficial.'},
+{id:'dos',t:'Verificación en dos pasos',m:'4 min',
+ b:'<p>Con la verificación en dos pasos, una contraseña robada no basta. Además necesitas algo que tienes, como un código de tu celular.</p><ul><li>Mejor una app autenticadora que los SMS.</li><li>Guarda los códigos de respaldo en un lugar seguro.</li><li>Actívala primero en tu correo, porque desde ahí se recuperan las demás cuentas.</li></ul>',
+ q:'Alguien consiguió tu contraseña. ¿Qué lo frena?',o:['Nada, ya entró','El segundo paso: el código de tu app','Cambiar el nombre de usuario'],ok:1,
+ w:'Correcto. Sin el código de tu celular, la contraseña sola no sirve.'},
+{id:'wifi',t:'Wi-Fi públicas y redes abiertas',m:'3 min',
+ b:'<p>En una red pública otras personas pueden estar en la misma red que tú. Los sitios con HTTPS protegen mucho, pero conviene tomar precauciones.</p><ul><li>Para banco o pagos, usa tus datos móviles.</li><li>Evita redes sin contraseña con nombres sospechosos.</li><li>Una VPN confiable añade una capa extra.</li></ul>',
+ q:'Estás en un café y necesitas revisar tu banco. ¿Qué es lo más seguro?',o:['El Wi-Fi del café','Mis datos móviles','Una red abierta que apareció en la lista'],ok:1,
+ w:'Correcto. Tus datos móviles no comparten red con desconocidos.'},
+{id:'linux0',g:'Módulo 2',t:'Qué es Linux y por qué importa',m:'6 min',
+ b:'<p>Linux es un sistema operativo, como Windows o macOS, pero libre y muy flexible. Corre en la mayoría de los servidores de internet, en los celulares Android y en gran parte de las herramientas de seguridad. Por eso quien trabaja en ciberseguridad lo usa a diario.</p><ul><li><b>Kernel:</b> el núcleo que controla el hardware.</li><li><b>Distribución:</b> el kernel más programas y escritorio ya listos. Ubuntu es una buena primera opción y Kali está pensada para seguridad.</li><li><b>Terminal:</b> una ventana donde escribes órdenes en vez de usar el ratón. Es más rápida y se puede automatizar.</li></ul><p>Cómo probarlo sin riesgo:</p><ol><li>En una máquina virtual con VirtualBox, sin tocar tu sistema.</li><li>En Windows, con WSL, que instala Linux dentro de Windows.</li><li>Desde un USB en modo de prueba (live).</li></ol><p><b>Práctica:</b> elige una de las tres opciones y consigue abrir una terminal de Ubuntu.</p>',
+ q:'¿Qué es una distribución de Linux?',o:['El kernel más los programas y el escritorio ya listos para usar','Un tipo de virus','Una marca de computadoras'],ok:0,
+ w:'Correcto. Ubuntu, Debian o Kali son distribuciones distintas del mismo núcleo.'},
+{id:'linux01',g:'Módulo 2',t:'Tus primeros comandos',m:'8 min',
+ b:'<p>En la terminal escribes un comando, presionas Enter y el sistema responde. Estos son los básicos:</p><pre><code>pwd                     # en qué carpeta estás\nls                      # lista lo que hay en la carpeta\ncd Documentos           # entra a una carpeta\ncd ..                   # sube una carpeta\nmkdir practica          # crea una carpeta\ntouch nota.txt          # crea un archivo vacío\ncp nota.txt copia.txt   # copia un archivo\nmv copia.txt otro.txt   # mueve o renombra\nrm otro.txt             # borra un archivo</code></pre><ul><li>Linux distingue mayúsculas y minúsculas: Nota.txt y nota.txt son archivos distintos.</li><li>Con la tecla Tab se autocompleta y con la flecha arriba repites comandos.</li><li>Cuidado: rm borra sin papelera. Revísalo antes de ejecutarlo.</li></ul><p><b>Práctica:</b> crea una carpeta llamada practica, entra, crea tres archivos, copia uno, renómbralo y bórralo. Usa pwd y ls para comprobar cada paso.</p>',
+ q:'¿Qué comando sube una carpeta en el árbol de directorios?',o:['ls ..','cd ..','pwd ..'],ok:1,
+ w:'Correcto. cd .. te lleva a la carpeta de arriba.'},
+{id:'linux02',g:'Módulo 2',t:'Cómo está organizado el sistema',m:'7 min',
+ b:'<p>En Linux todo parte de una sola raíz, la carpeta /. De ahí cuelgan las demás:</p><ul><li><b>/home:</b> las carpetas personales de cada usuario.</li><li><b>/etc:</b> los archivos de configuración del sistema.</li><li><b>/var/log:</b> los registros de lo que ocurre en el sistema.</li><li><b>/tmp:</b> archivos temporales.</li><li><b>/bin y /usr/bin:</b> los programas.</li></ul><p>Para ver y editar archivos de texto:</p><pre><code>cat archivo.txt     # muestra el contenido\nless archivo.txt    # lo muestra por páginas (q para salir)\nnano archivo.txt    # editor sencillo en la terminal</code></pre><p>Hay dos tipos de usuario: el normal y el administrador, llamado root. Para tareas de administrador se antepone <code>sudo</code> al comando. Úsalo con cuidado, porque un error con sudo puede dañar el sistema.</p><p>¿Quieres ir más lejos? En la ruta Premium, la Etapa 1 enseña búsquedas con grep, permisos y scripts para automatizar.</p><p><b>Práctica:</b> con cd y ls, recorre /home, /etc y /var/log. Abre un archivo de /etc con less, sin modificar nada.</p>',
+ q:'¿Dónde suelen guardarse los registros del sistema en Linux?',o:['/tmp','/home','/var/log'],ok:2,
+ w:'Correcto. /var/log guarda los registros, y es donde un analista de seguridad investiga.'},
+{id:'red0',g:'Módulo 3',t:'Qué es una red',m:'6 min',
+ b:'<p>Una red es un conjunto de dispositivos conectados para compartir información: celulares, computadoras, televisores e impresoras.</p><ul><li><b>Router:</b> reparte internet entre los dispositivos de tu casa y los conecta con el exterior.</li><li><b>Módem:</b> traduce la señal de tu proveedor para que tu casa se conecte a internet. A menudo viene junto con el router.</li><li><b>LAN:</b> la red local, la de tu casa u oficina.</li><li><b>Internet:</b> la red de redes que conecta millones de LAN en todo el mundo.</li></ul><p>Cuando mandas un mensaje, viaja de tu dispositivo al router, luego por la red de tu proveedor y atraviesa varias redes hasta llegar al servidor de destino.</p><p>Para seguridad esto importa porque cada dispositivo conectado es una posible puerta. Un router con la contraseña de fábrica o desactualizado es de las debilidades más comunes en casa.</p><p><b>Práctica:</b> haz una lista de todos los dispositivos conectados a tu Wi-Fi. Si alguno no lo reconoces, revísalo en el panel de tu router.</p>',
+ q:'¿Qué conecta tu red de casa con internet?',o:['El router, junto con el módem','El monitor','El teclado'],ok:0,
+ w:'Correcto. Por eso proteger tu router es una de las primeras medidas de seguridad.'},
+{id:'red01',g:'Módulo 3',t:'IP y DNS en palabras simples',m:'7 min',
+ b:'<p>Cada dispositivo en una red tiene una <b>dirección IP</b>, como la dirección de una casa. Gracias a ella los datos saben a dónde llegar.</p><ul><li><b>IP privada:</b> la que usa tu dispositivo dentro de tu red, por ejemplo 192.168.1.10. Solo sirve en tu red local.</li><li><b>IP pública:</b> la que ve internet cuando sales. Es la de tu router.</li></ul><p>Recordar números es difícil, así que existe el <b>DNS</b>, la agenda de internet: traduce un nombre como ejemplo.com a su IP.</p><p>Para seguridad: si alguien manipula el DNS, puede llevarte a una página falsa aunque escribas bien el nombre. Por eso conviene verificar el candado y la dirección de los sitios importantes.</p><p><b>Práctica:</b> busca cuál es la IP privada de tu celular o computadora. Luego consulta cuál es tu IP pública en un sitio de consulta de IP y compárala.</p>',
+ q:'¿Para qué sirve el DNS?',o:['Para guardar tus contraseñas','Para traducir nombres de sitios a direcciones IP','Para acelerar el Wi-Fi'],ok:1,
+ w:'Correcto. El DNS convierte nombres fáciles de recordar en las direcciones IP que usan las computadoras.'},
+{id:'red02',g:'Módulo 3',t:'Puertos, protocolos y HTTPS',m:'8 min',
+ b:'<p>Un <b>protocolo</b> es un conjunto de reglas para que dos dispositivos se entiendan, como un idioma común. Algunos que ya usas sin saberlo:</p><ul><li><b>HTTP y HTTPS:</b> para ver páginas web. HTTPS cifra la conexión.</li><li><b>SMTP e IMAP:</b> para enviar y recibir correo.</li><li><b>SSH:</b> para controlar equipos de forma remota y segura.</li></ul><p>Si la IP es la dirección de un edificio, los <b>puertos</b> son sus puertas numeradas. Cada servicio escucha en una: HTTP en la 80, HTTPS en la 443 y SSH en la 22.</p><p>El candado del navegador significa que la conexión va cifrada, pero no garantiza que el sitio sea honesto. Una página de phishing también puede tener candado. Revisa siempre la dirección completa.</p><p>Cada puerto abierto innecesario es una entrada más para un atacante. En la ruta Premium aprenderás a descubrirlos con Nmap en tu propio laboratorio.</p><p><b>Práctica:</b> entra a tres sitios que uses, revisa que su dirección empiece con https y haz clic en el candado para ver quién emitió el certificado.</p>',
+ q:'Si un sitio tiene candado en el navegador, ¿qué significa?',o:['Que es seguro y honesto al 100%','Que la conexión va cifrada, pero hay que revisar la dirección','Que no puede ser phishing'],ok:1,
+ w:'Correcto. El candado protege la conexión, no garantiza las intenciones del sitio.'}
+];
+L.forEach(function(l){l.g=l.g||'Módulo 1'});
+var KEY='cp_done_v1',done={};
+function load(){try{done=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){done={}}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}}
+function rows(){
+  var n=0;
+  [['rows','Módulo 1'],['rowsM2','Módulo 2'],['rowsM3','Módulo 3']].forEach(function(a){document.getElementById(a[0]).innerHTML=L.filter(function(l){return l.g===a[1]}).map(function(l){
+    var d=done[l.id];if(d)n++;
+    return '<div class="row'+(d?' done':'')+'"><span class="dot">'+(d?'✓':'')+'</span><span class="t">'+l.t+'<br><span class="m">'+l.m+(d?' · Completada':'')+'</span></span><a class="btn sm" href="#leccion-'+l.id+'">'+(d?'Repasar':'Leer')+'</a></div>';
+  }).join('')});
+  var sd=document.getElementById('side');if(sd)sd.innerHTML=homeSide(n);
+}
+function sideList(cur,g0){var cg=g0||(L.filter(function(x){return x.id===cur})[0]||{}).g;return '<div class="sidebox"><b>'+(cg||'Lecciones')+'</b>'+L.filter(function(l){return !cg||l.g===cg}).map(function(l,i){return '<a class="sl'+(l.id===cur?' cur':'')+(done[l.id]?' dn':'')+'" href="#leccion-'+l.id+'">'+(i+1)+'. '+l.t+'</a>'}).join('')+'</div>'}
+function homeSide(n){var pc=Math.round(n/L.length*100);return '<div class="sidebox"><b>Tu progreso</b><div class="pbar"><i style="width:'+pc+'%"></i></div><span class="m" style="color:var(--muted);font-size:.9rem">'+n+' de '+L.length+' lecciones</span></div><div class="sidebox"><b>Ir a</b><a class="sl" href="#inicio">Inicio</a><a class="sl" href="#como">Cómo funciona</a><a class="sl" href="#ruta">Ruta</a><a class="sl" href="#glosario">Glosario</a><a class="sl" href="#planes">Planes</a><a class="sl" href="#probador">Probador</a></div>'+sideList(null,'Módulo 1')}
+function read(id){
+  var i=L.findIndex(function(l){return l.id===id});
+  if(i<0){location.hash='ruta';return}
+  var l=L[i],G=L.filter(function(x){return x.g===l.g}),gi=G.indexOf(l),p=G[gi-1],n=G[gi+1],r=document.getElementById('reader');
+  r.innerHTML='<div class="rlay"><article><a class="crumb" href="#ruta">Volver a la ruta</a><h1>'+l.t+'</h1><p class="meta">'+l.g+' · Lección '+(gi+1)+' de '+G.length+' · '+l.m+(l.p?' · Premium':'')+'</p><div class="read">'+l.b+'</div><div class="quiz"><h3>'+l.q+'</h3>'+l.o.map(function(o,k){return '<button type="button" class="opt" data-i="'+k+'">'+o+'</button>'}).join('')+'<p class="fb" aria-live="polite"></p></div><div class="pager">'+(p?'<a class="btn ghost sm" href="#leccion-'+p.id+'">Anterior</a>':'<span></span>')+(n?'<a class="btn sm" href="#leccion-'+n.id+'">Siguiente lección</a>':'<a class="btn sm" href="#ruta">Terminar módulo</a>')+'</div></article><aside class="side">'+sideList(l.id)+'</aside></div>';
+  r.querySelectorAll('.opt').forEach(function(b){b.addEventListener('click',function(){
+    var k=+b.getAttribute('data-i'),fb=r.querySelector('.fb');
+    r.querySelectorAll('.opt').forEach(function(x){x.classList.remove('ok','no')});
+    if(k===l.ok){b.classList.add('ok');fb.textContent=l.w;done[l.id]=1;save();rows();var sdr=r.querySelector('.side');if(sdr)sdr.innerHTML=sideList(l.id)}
+    else{b.classList.add('no');fb.textContent='Casi. Vuelve a leer la lección e inténtalo de nuevo.'}
+  })});
+}
+function route(){
+  var h=location.hash.slice(1),m=h.match(/^leccion-([a-z0-9]+)$/);
+  document.getElementById('home').hidden=!!m;document.getElementById('reader').hidden=!m;
+  if(m){read(m[1]);window.scrollTo(0,0)}
+  else if(h){var el=document.getElementById(h);if(el)el.scrollIntoView()}
+}
+window.addEventListener('hashchange',route);
+document.getElementById('reset').addEventListener('click',function(){done={};save();rows()});
+
+var COM=['123456','12345678','123456789','password','contrasena','contraseña','qwerty','abc123','admin','gallo','futbol','america','chivas','teamo','mexico','iloveyou','dragon','111111'];
+function fmt(s){
+  var n=function(x){return Math.round(x).toLocaleString('es-MX')};
+  if(s<1)return 'un instante';
+  if(s<60)return n(s)+' segundos';
+  if(s<3600)return n(s/60)+' minutos';
+  if(s<86400)return n(s/3600)+' horas';
+  if(s<31536000)return n(s/86400)+' días';
+  var y=s/31536000;
+  if(y<1000)return n(y)+' años';
+  if(y<1e6)return 'miles de años';
+  if(y<1e9)return 'millones de años';
+  return 'miles de millones de años';
+}
+function show(){
+  var p=document.getElementById('pw').value,rt=document.getElementById('rt'),rn=document.getElementById('rn'),m=document.querySelectorAll('.meter i');
+  if(!p){rt.textContent='Escribe algo para empezar';rn.textContent='';m.forEach(function(x){x.className=''});return}
+  var pool=0,low=p.toLowerCase(),base=low.replace(/[^a-zñ]/g,''),com=false;
+  if(/[a-zñ]/.test(p))pool+=27;if(/[A-ZÑ]/.test(p))pool+=27;if(/\d/.test(p))pool+=10;if(/[^A-Za-zñÑ0-9]/.test(p))pool+=33;
+  var bits=p.length*Math.log2(pool||1);
+  if(COM.indexOf(low)>-1||(base&&COM.indexOf(base)>-1)||/^(.)\1+$/.test(p)){bits=Math.min(bits,12);com=true}
+  var s=Math.pow(2,bits)/2/1e10,lv=s<86400*30?1:s<31536000?2:s<31536000*100?3:4;
+  m.forEach(function(x,i){x.className=i<lv?'on':''});
+  rt.textContent='Se rompería en '+fmt(s);
+  rn.textContent=['Muy débil','Débil','Aceptable','Fuerte'][lv-1]+'. '+(com?'Es una clave muy común y va primero en las listas de los atacantes.':p.length<12?'Prueba una frase más larga: la longitud es lo que más ayuda.':'Buen largo. Úsala en una sola cuenta.')+' Cálculo aproximado.';
+}
+document.getElementById('pw').addEventListener('input',show);
+var GL=[
+['2FA / MFA','Verificación con un segundo factor, como un código en tu celular, además de la contraseña.'],
+['Autenticación','Comprobar que alguien es quien dice ser, por ejemplo con contraseña y código.'],
+['Autorización','Definir qué puede hacer una persona una vez que ya está autenticada.'],
+['Blue team','Equipo que defiende: previene, detecta y responde a ataques.'],
+['Botnet','Red de equipos infectados que un atacante controla a distancia.'],
+['Bug bounty','Programa que paga a quien reporta fallas de seguridad de forma responsable.'],
+['Cifrado','Técnica que vuelve ilegible la información para quien no tiene la clave.'],
+['Contención','Fase de un incidente en la que se limita su alcance, por ejemplo aislando un equipo.'],
+['CTF','Competencia donde se resuelven retos de seguridad para encontrar una bandera.'],
+['CVE','Identificador público de una vulnerabilidad conocida, como CVE-2021-44228.'],
+['CVSS','Escala de 0 a 10 que mide la gravedad de una vulnerabilidad.'],
+['DDoS','Ataque que satura un servicio con tráfico desde muchos equipos para dejarlo sin funcionar.'],
+['DNS','Sistema que traduce nombres de sitios a direcciones IP.'],
+['Endpoint','Cualquier equipo final de una red, como una laptop o un celular.'],
+['Escalada de privilegios','Conseguir más permisos de los que se tenían, por ejemplo llegar a administrador.'],
+['Exploit','Código o técnica que aprovecha una vulnerabilidad.'],
+['Falso positivo','Alerta de seguridad que parecía un ataque, pero era actividad normal.'],
+['Firewall','Filtro que permite o bloquea el tráfico de red según reglas.'],
+['Fuerza bruta','Ataque que prueba muchas contraseñas hasta dar con la correcta.'],
+['GRC','Gobierno, riesgo y cumplimiento: políticas, auditorías y normas de seguridad.'],
+['Hardening','Endurecer un sistema: quitar lo innecesario, actualizar y cerrar puertas.'],
+['Hash','Huella irreversible de un dato. Se usa para guardar contraseñas y verificar integridad.'],
+['HTTPS','Versión cifrada de HTTP, el protocolo de las páginas web.'],
+['IDS / IPS','Sistemas que detectan (IDS) o detectan y bloquean (IPS) actividad sospechosa en la red.'],
+['Ingeniería social','Engañar a personas para que entreguen datos o hagan algo inseguro.'],
+['Malware','Programa malicioso, como virus, troyanos o ransomware.'],
+['Mínimo privilegio','Dar a cada persona o programa solo los permisos que necesita.'],
+['Nmap','Herramienta que descubre equipos, puertos abiertos y servicios en una red.'],
+['OSINT','Investigación usando fuentes abiertas y públicas.'],
+['OWASP','Organización que publica guías, como la lista de los riesgos web más comunes.'],
+['Parche','Actualización que corrige una vulnerabilidad o un error.'],
+['Pentest','Prueba de seguridad autorizada que simula un ataque para encontrar fallas.'],
+['Phishing','Mensaje falso que busca que des datos o hagas clic en un enlace peligroso.'],
+['Puerto','Puerta numerada de un equipo donde escucha un servicio, como el 443 para HTTPS.'],
+['Ransomware','Malware que cifra tus archivos y pide dinero para devolverlos.'],
+['Red team','Equipo que simula ataques para probar las defensas de una organización.'],
+['Registro (log)','Bitácora donde un sistema anota quién hizo qué y cuándo.'],
+['Sal (salt)','Dato aleatorio que se añade a una contraseña antes de calcular su hash.'],
+['SIEM','Plataforma que centraliza registros, los correlaciona y genera alertas.'],
+['SOC','Centro de operaciones de seguridad: el equipo que vigila y responde a alertas.'],
+['Inyección SQL','Falla en la que la entrada del usuario se mezcla con una consulta a la base de datos.'],
+['SSH','Protocolo para controlar un equipo de forma remota y cifrada.'],
+['TLS','Tecnología que cifra las conexiones, como las de HTTPS.'],
+['VPN','Conexión cifrada que protege tu tráfico y oculta tu red real.'],
+['Vulnerabilidad','Debilidad de un sistema que un atacante podría aprovechar.'],
+['Zero-day','Vulnerabilidad desconocida para el fabricante, sin parche disponible.']
+];
+function glr(q){q=(q||'').toLowerCase();var h=GL.filter(function(g){return !q||g[0].toLowerCase().indexOf(q)>-1||g[1].toLowerCase().indexOf(q)>-1}).map(function(g){return '<div class="gt"><b>'+g[0]+'</b><span>'+g[1]+'</span></div>'}).join('');document.getElementById('gl').innerHTML=h||'<p>No encontré ese término.</p>'}
+document.getElementById('gq').addEventListener('input',function(e){glr(e.target.value)});glr('');
+function term(){var el=document.getElementById('tm');if(!el)return;
+ var lines=['<span class="p">$</span> whoami','futuro-analista-de-seguridad','<span class="p">$</span> ./empezar_ruta.sh','<span class="ok">[+]</span> Seguridad básica ......... OK','<span class="ok">[+]</span> Linux y redes ............ OK','<span class="ok">[+]</span> Laboratorio propio ........ OK','<span class="warn">[!]</span> Primer empleo ... en progreso'];
+ var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+ if(rm){el.innerHTML=lines.join('\n');return}
+ var i=0,out='';
+ (function next(){if(i>=lines.length){el.innerHTML=out+'<span class="caret"></span>';return}out+=lines[i]+'\n';el.innerHTML=out+'<span class="caret"></span>';i++;setTimeout(next,i%3==1?650:380)})();}
+function cnt(id,n){var e=document.getElementById(id);if(!e)return;var t=0,s=Math.max(1,Math.ceil(n/30));var iv=setInterval(function(){t=Math.min(n,t+s);e.textContent=t;if(t>=n)clearInterval(iv)},30)}
+function rev(){if(!('IntersectionObserver' in window))return;var els=document.querySelectorAll('#home main section, #home .cta, #home .mod');els.forEach(function(e){e.classList.add('rv')});var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.06});els.forEach(function(e){io.observe(e)})}
+load();rows();route();term();cnt('s1',L.length);cnt('s2',GL.length);rev();
+</script>
+</body>
+</html>
